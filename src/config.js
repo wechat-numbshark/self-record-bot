@@ -44,6 +44,7 @@ const config = {
     monthly: process.env.CRON_MONTHLY || '0 3 1 * *',
     tz: process.env.TZ || 'Asia/Shanghai',
   },
+  language: ['zh', 'en', 'ja'].includes(process.env.BOT_LANGUAGE) ? process.env.BOT_LANGUAGE : 'zh',
   enableInstantReply: String(process.env.ENABLE_INSTANT_REPLY || 'true') === 'true',
   ffmpegPath: process.env.FFMPEG_PATH || 'ffmpeg',
   tableIdsPath: TABLE_IDS_PATH,

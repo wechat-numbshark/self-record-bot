@@ -22,6 +22,7 @@ const agent = require('../ai/agent');
 const prompts = require('../ai/prompts');
 const { getOrCreateDailyDoc } = require('../daily-doc');
 const contextCache = require('../context-cache');
+const { text: localText, languageInstruction } = require('../i18n');
 
 function mimeOf(name = '') {
   const ext = name.split('.').pop().toLowerCase();
@@ -55,7 +56,7 @@ async function handleMessage(event) {
   try { content = JSON.parse(msg.content || '{}'); } catch {}
 
   // ① 即刻确认收到
-  im.replyText(msg.message_id, '收到，正在处理…').catch(e => Logger.warn('确认回复失败: ' + e.message));
+  im.replyText(msg.message_id, localText('received')).catch(e => Logger.warn('确认回复失败: ' + e.message));
 
   // ── 内容处理 ─────────────────────────────────────────────────────────────
   let inputType = '文字';
@@ -73,7 +74,7 @@ async function handleMessage(event) {
       attachmentToken = await safeUpload(buf, attachmentName, appToken, false);
       text = await speech.recognize(buf).catch(e => {
         Logger.warn('语音识别失败: ' + e.message);
-        return '[语音识别失败，请查看附件]';
+        return localText('speechFailed');
       });
     } else if (msg.message_type === 'post') {
       text = extractPostText(content);
@@ -84,16 +85,16 @@ async function handleMessage(event) {
       attachmentToken = await safeUpload(buf, attachmentName, appToken, true);
       text = await ai.chatVision(
         config.openrouter.modelVision, prompts.VISION_SYSTEM,
-        '请描述这张图片，便于日后检索。',
+        languageInstruction() + ' Describe this image for later retrieval.',
         [{ base64: buf.toString('base64'), mime: mimeOf(attachmentName) }],
         { maxTokens: 400 }
-      ).catch(e => { Logger.warn('图片理解失败: ' + e.message); return '[图片]'; });
+      ).catch(e => { Logger.warn('图片理解失败: ' + e.message); return localText('image'); });
     } else {
-      text = `[未支持的消息类型: ${msg.message_type}]`;
+      text = `${localText('unsupportedType')}: ${msg.message_type}`;
     }
   } catch (e) {
     Logger.error('消息内容处理失败:', e.message);
-    text = text || '[内容处理失败]';
+    text = text || localText('contentFailed');
   }
 
   // ③ 写云文档
@@ -188,7 +189,7 @@ async function handleMessage(event) {
     Logger.success(`已记录一条（${inputType}）：${fields['标题']}`);
     // ⑦ 回复「已记录」确认 + 摘要 + 链接
     const summary = analysis.summary ? `「${analysis.summary}」` : '';
-    im.replyText(msg.message_id, `✅ 已记录 ${summary}\n${docUrl}`)
+    im.replyText(msg.message_id, `✅ ${localText('recorded')} ${summary}\n${docUrl}`)
       .catch(e => Logger.warn('记录链接回复失败: ' + e.message));
   } catch (e) { Logger.error('写多维表格失败: ' + e.message); }
 

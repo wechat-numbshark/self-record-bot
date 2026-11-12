@@ -16,3 +16,19 @@ test('public example contains no credentials', () => {
     assert.match(sample, new RegExp('^' + key + '=$', 'm'));
   }
 });
+
+test('confirmation text follows the selected language', () => {
+  const { config } = require('../src/config');
+  const { text } = require('../src/i18n');
+  const previous = config.language;
+  try {
+    config.language = 'zh';
+    assert.equal(text('recorded'), '已记录');
+    config.language = 'en';
+    assert.equal(text('recorded'), 'Recorded');
+    config.language = 'ja';
+    assert.equal(text('recorded'), '記録しました');
+  } finally {
+    config.language = previous;
+  }
+});

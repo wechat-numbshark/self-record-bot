@@ -1,3 +1,5 @@
+**语言 / Language / 言語:** [简体中文](README.md) · [English](README.en.md) · [日本語](README.ja.md)
+
 # 记录自己 · 飞书机器人
 
 通过飞书机器人发**语音 / 文字 / 图片** → 自动归档到**当日云文档** + 写入**多维表格** → AI 整理（模型可配置）。本机部署，飞书长连接，无需公网域名。
@@ -126,3 +128,5 @@ self-record-bot/
 [虚构人物“小林”的示例记录](examples/demo-records.json)和[演示预览](docs/demo-preview.png)仅用于展示数据形态，不含真实飞书账号、App ID、App Secret 或个人记录。
 
 ![小林的虚构记录预览](docs/demo-preview.png)
+
+回复与 AI 输出语言可设置 `BOT_LANGUAGE=zh`、`en` 或 `ja`。

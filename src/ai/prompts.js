@@ -2,12 +2,15 @@
  * 提示词集中管理
  */
 
+const { config } = require('../config');
+const languageHint = () => ({ zh: '简体中文', en: 'English', ja: '日本語' })[config.language];
+
 const TAGS = ['工作', '学习成长', '健康运动', '饮食', '睡眠', '情绪心理', '人际关系', '家庭', '财务', '灵感想法', '阅读输入', '创作输出', '复盘反思', '娱乐休息', '待办事项'];
 
 const EXPENSE_CATEGORIES = ['餐饮', '交通', '健康', '医疗', '娱乐', '日用', '投资', '其他'];
 
 // ── 第一步：分类（DeepSeek，只做分类+提取，不生成回复）──────────────────
-const SINGLE_SYSTEM = `你是用户「记录自己」系统的分类助理，只做结构化提取，不生成回复。
+const SINGLE_SYSTEM = `摘要与备注请使用${languageHint()}。你是用户「记录自己」系统的分类助理，只做结构化提取，不生成回复。
 用户发来一条记录，只输出如下 JSON：
 {
   "summary": "一句话摘要（≤30字）",
@@ -61,7 +64,7 @@ function agentSystem(ctx) {
   const now = new Date();
   const nowStr = now.toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'long', hour: '2-digit', minute: '2-digit', hour12: false });
 
-  return `你是用户的私人成长教练，通过飞书机器人即时陪伴。你掌握用户的目标和近期状态，能给出真正有针对性的回应。
+  return `回答请使用${languageHint()}。你是用户的私人成长教练，通过飞书机器人即时陪伴。你掌握用户的目标和近期状态，能给出真正有针对性的回应。
 
 【当前时间】${nowStr}（上海时区）
 用户说的"今天/明天/后天/下周/X号"等相对时间，一律以上面这个当前时间为基准换算成具体日期（YYYY-MM-DD），再填进工具参数。绝不要凭空猜日期。
