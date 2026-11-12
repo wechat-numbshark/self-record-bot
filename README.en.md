@@ -2,7 +2,19 @@
 
 **Language:** [简体中文](README.md) · English · [日本語](README.ja.md)
 
-![A fictional person's daily record](docs/demo-preview.png)
+**Turn messages you send to yourself into a dated, searchable record.** Send text, voice, or an image to your own bot; it keeps the original message, a short summary, and a link to the daily document. Daily review brings the fragments back together.
+
+### What it looks like · fictional person and data
+
+**Message to structured record:**
+
+![Fictional conversation and record](docs/demo-conversation.png)
+
+**Daily review:**
+
+![Fictional daily record](docs/demo-preview.png)
+
+Only the configured owner ID is processed. The screenshots are illustrative mockups, not a capture of anyone's Feishu account.
 
 A single-person Feishu bot for collecting text, voice transcripts, and images into personal records, then creating daily summaries and follow-up tasks. The bundled “Xiaolin” records are fictional and illustrate the data shape without an actual Feishu account.
 
