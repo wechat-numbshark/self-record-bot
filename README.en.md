@@ -4,6 +4,8 @@
 
 **Turn messages you send to yourself into a dated, searchable record.** Send text, voice, or an image to your own bot; it keeps the original message, a short summary, and a link to the daily document. Daily review brings the fragments back together.
 
+Need help with installation, a private deployment, or a customization that follows your workflow? Contact us at [buildwithneo.cn](https://buildwithneo.cn).
+
 ### What it looks like · fictional person and data
 
 **Message to structured record:**
